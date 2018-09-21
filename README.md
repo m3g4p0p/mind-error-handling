@@ -1,11 +1,11 @@
-# with-error-handler
+# mind-error-handling
 
 Remove error handling boilerplate from node callbacks.
 
 ## Installation
 
 ```bash
-yarn install with-error-handler
+yarn install mind-error-handling
 ```
 
 ## Usage
@@ -20,9 +20,10 @@ fs.readdir(__dirname, (error, files) => {
 Becomes:
 
 ```javascript
-const weh = require('with-error-handler')
+const fs = require('fs')
+const meh = require('mind-error-handling')
 
-fs.readdir(__dirname, weh(files => {
+fs.readdir(__dirname, meh(files => {
   // ...
 }))
 ```
@@ -30,7 +31,7 @@ fs.readdir(__dirname, weh(files => {
 This will throw the error by default. It is also possible to pass an error handler instead:
 
 ```javascript
-fs.readdir(__dirname, weh(files => {
+fs.readdir(__dirname, meh(files => {
   // ...
 }, console.error))
 ```
@@ -38,10 +39,17 @@ fs.readdir(__dirname, weh(files => {
 When passing `false` as the second argument, the error will be silently ignored:
 
 ```javascript
-fs.readdir(__dirname, weh(files => {
+fs.readdir(__dirname, meh(files => {
   // ...
 }, false))
 ```
+
+## API
+
+```
+withErrorHandler(onSuccess: function, onError?: boolen|function)
+```
+
 
 ## License
 

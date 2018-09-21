@@ -1,5 +1,5 @@
 {
-  "name": "with-error-handler",
+  "name": "mind-error-handling",
   "version": "1.0.0",
   "main": "lib/index.js",
   "license": "MIT",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/m3g4p0p/with-error-handler.git"
+    "url": "https://github.com/m3g4p0p/mind-error-handling"
   },
   "scripts": {
     "test": "jasmine ./spec/**/*.spec.js",

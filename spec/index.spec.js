@@ -1,28 +1,28 @@
-const withErrorHandler = require('../lib/index')
+const meh = require('../lib/index')
 
-describe('withErrorHandler', () => {
-  const callback = jasmine.createSpy('callback')
-  const handleError = jasmine.createSpy('handleError')
+describe('mindErrorHandling', () => {
+  const onSuccess = jasmine.createSpy('callback')
+  const onError = jasmine.createSpy('handleError')
 
   beforeEach(() => {
-    callback.calls.reset()
-    handleError.calls.reset()
+    onSuccess.calls.reset()
+    onError.calls.reset()
   })
 
   describe('no error occurred', () => {
     it('should call the callback', () => {
       const doSomething = callback => callback(null, 'foo', 42)
 
-      doSomething(withErrorHandler(callback, handleError))
-      expect(callback).toHaveBeenCalledWith('foo', 42)
-      expect(handleError).not.toHaveBeenCalled()
+      doSomething(meh(onSuccess, onError))
+      expect(onSuccess).toHaveBeenCalledWith('foo', 42)
+      expect(onError).not.toHaveBeenCalled()
     })
 
     it('should apply this', done => {
       const context = {}
       const doSomething = callback => callback.call(context, null)
 
-      doSomething(withErrorHandler(function () {
+      doSomething(meh(function () {
         expect(this).toBe(context)
         done()
       }))
@@ -35,33 +35,33 @@ describe('withErrorHandler', () => {
 
     it('should throw by default', done => {
       try {
-        doSomething(withErrorHandler(callback))
+        doSomething(meh(onSuccess))
       } catch (e) {
         expect(e).toBe(error)
-        expect(callback).not.toHaveBeenCalled()
+        expect(onSuccess).not.toHaveBeenCalled()
         done()
       }
     })
 
     it('should call the error handler', () => {
-      doSomething(withErrorHandler(callback, handleError))
-      expect(callback).not.toHaveBeenCalled()
-      expect(handleError).toHaveBeenCalledWith(error)
+      doSomething(meh(onSuccess, onError))
+      expect(onSuccess).not.toHaveBeenCalled()
+      expect(onError).toHaveBeenCalledWith(error)
     })
 
     it('should work with promises', done => {
       new Promise((resolve, reject) => {
-        doSomething(withErrorHandler(resolve, reject))
-      }).then(callback).catch(handleError).finally(() => {
-        expect(callback).not.toHaveBeenCalled()
-        expect(handleError).toHaveBeenCalledWith(error)
+        doSomething(meh(resolve, reject))
+      }).then(onSuccess).catch(onError).finally(() => {
+        expect(onSuccess).not.toHaveBeenCalled()
+        expect(onError).toHaveBeenCalledWith(error)
         done()
       })
     })
 
     it('should do nothing when passing false', () => {
-      doSomething(withErrorHandler(callback, false))
-      expect(callback).not.toHaveBeenCalled()
+      doSomething(meh(onSuccess, false))
+      expect(onSuccess).not.toHaveBeenCalled()
     })
   })
 })
