@@ -27,6 +27,11 @@ describe('mindErrorHandling', () => {
         done()
       }))
     })
+
+    it('should do nothing if no callback was passed', () => {
+      const doSomething = callback => callback()
+      expect(() => doSomething(meh())).not.toThrow()
+    })
   })
 
   describe('an error did occur', () => {

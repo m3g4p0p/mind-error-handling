@@ -1,6 +1,6 @@
 # mind-error-handling
 
-Remove error handling boilerplate from node callbacks.
+Remove error handling boilerplate from node-style callbacks.
 
 ## Installation
 
@@ -10,14 +10,21 @@ yarn install mind-error-handling
 
 ## Usage
 
+Turns
+
 ```javascript
+const fs = require('fs')
+
 fs.readdir(__dirname, (error, files) => {
-  if (error) throw error
+  if (error) {
+    throw error
+  }
+
   // ...
 })
 ```
 
-Becomes:
+into
 
 ```javascript
 const fs = require('fs')
@@ -47,7 +54,7 @@ fs.readdir(__dirname, meh(files => {
 ## API
 
 ```
-withErrorHandler(onSuccess: function, onError?: boolen|function)
+mindErrorHandling(onSuccess: function, onError?: boolen|function)
 ```
 
 
